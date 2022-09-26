@@ -216,6 +216,7 @@ export const RichText = React.forwardRef(function Text(props, forwardedRef) {
     const renderProps = { id: id, ref: layoutRef, ...rest, style: style, layoutId: layoutId, "data-framer-name": name, "data-framer-component-type": "RichText", "data-center": center, className: cx(className, richTextWrapperClassName), transformTemplate: template };
     if (innerHTMLWithReplacedFramerPageLinks) {
         if (rest.children) renderProps.children = React.createElement('div', { dangerouslySetInnerHTML: { __html: innerHTMLWithReplacedFramerPageLinks } }); // add another tag for rendering html strings (not with current tag & children)
+        // if (rest.children) renderProps.children = unescapeHTML(innerHTMLWithReplacedFramerPageLinks) // also can just unescapeHTML
         else renderProps.dangerouslySetInnerHTML = { __html: innerHTMLWithReplacedFramerPageLinks };
     }
 
