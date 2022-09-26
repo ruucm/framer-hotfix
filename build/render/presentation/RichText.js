@@ -212,8 +212,14 @@ export const RichText = React.forwardRef(function Text(props, forwardedRef) {
         forceLayerBackingWithCSSProperties(style);
     }
     Object.assign(style, props.style);
-    console.log('innerHTMLWithReplacedFramerPageLinks', innerHTMLWithReplacedFramerPageLinks)
-    return (React.createElement(motion.div, { id: id, ref: layoutRef, ...rest, style: style, layoutId: layoutId, "data-framer-name": name, "data-framer-component-type": "RichText", "data-center": center, className: cx(className, richTextWrapperClassName), transformTemplate: template, dangerouslySetInnerHTML: { __html: innerHTMLWithReplacedFramerPageLinks } }));
+
+    const renderProps = { id: id, ref: layoutRef, ...rest, style: style, layoutId: layoutId, "data-framer-name": name, "data-framer-component-type": "RichText", "data-center": center, className: cx(className, richTextWrapperClassName), transformTemplate: template };
+    if (innerHTMLWithReplacedFramerPageLinks) {
+        if (rest.children) renderProps.children = React.createElement('div', { dangerouslySetInnerHTML: { __html: innerHTMLWithReplacedFramerPageLinks } }); // add another tag for rendering html strings (not with current tag & children)
+        else renderProps.dangerouslySetInnerHTML = { __html: innerHTMLWithReplacedFramerPageLinks };
+    }
+
+    return (React.createElement(motion.div, renderProps));
 });
 function convertVerticalAlignment(verticalAlignment) {
     switch (verticalAlignment) {
